@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <!-- Add any necessary CSS styles for your invoice -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .invoice-header {
+            margin-bottom: 20px;
+        }
+        .invoice-header h2 {
+            margin: 0;
+        }
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+        .invoice-details p {
+            margin: 0;
+        }
+        .product-list {
+            list-style: none;
+            padding: 0;
+        }
+        .product-list li {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-header">
+        <h2>Invoice</h2>
+    </div>
+    <div class="invoice-details">
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+        <p><strong>Total:</strong> ₹{{ order.total }}</p>
+        <p><strong>Status:</strong> {{ order.order_status }}</p>
+        <p><strong>Created At:</strong> {{ order.created_at }}</p>
+        <p><strong>Address:</strong> {{ order.address }}</p>
+        <p><strong>Mobile:</strong> {{ order.mobile }}</p>
+    </div>
+    <div class="product-list">
+        <h3>Products:</h3>
+        <ul>
+            {% for cart_product in order.cart.cartproduct_set.all %}
+                <li>
+                    <strong>{{ cart_product.product.p_name }}</strong><br>
+                    Quantity: {{ cart_product.quantity }}<br>
+                    Price: ₹{{ cart_product.rate }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

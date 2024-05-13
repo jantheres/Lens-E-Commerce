@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add your own styling if needed -->
+    <style>
+        /* Custom Styles */
+        .order-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .order-card .card-body {
+            padding: 1.25rem;
+        }
+
+        .order-card h5 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-card p {
+            margin-bottom: 0.25rem;
+        }
+
+        .product-list .list-group-item {
+            border: none;
+        }
+
+        .product-list img {
+            max-width: 80px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .product-list .product-info {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>My Orders</h2>
+    <hr>
+
+    {% if user_orders %}
+        <div class="row">
+            {% for order in user_orders %}
+                <div class="col-md-6">
+                    <div class="card mb-4 order-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Order #{{ order.id }}</h5>
+                            <p class="card-text">Total: ₹{{ order.total }}</p>
+                            <p class="card-text">Status: {{ order.order_status }}</p>
+                            <p class="card-text">Created At: {{ order.created_at }}</p>
+                            <p class="card-text">Address: {{ order.address }}</p>
+                            <p class="card-text">Mobile: {{ order.mobile }}</p>
+                            <!-- Product Details -->
+                            <h5 class="mt-3">Products:</h5>
+                            <ul class="list-group product-list">
+                                {% for cart_product in order.cart.cartproduct_set.all %}
+                                    <li class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-3">
+                                                <img src="{{ cart_product.product.p_image.url }}" alt="{{ cart_product.product.p_name }}" class="img-fluid">
+                                            </div>
+                                            <div class="col-md-9 product-info">
+                                                <p>{{ cart_product.product.p_name }}</p>
+                                                <p>Quantity: {{ cart_product.quantity }}</p>
+                                                <p>Price: ₹{{ cart_product.rate }}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <!-- End Product Details -->
+                            <!-- Add a link to view order details if needed -->
+                            <!-- <a href="#" class="btn btn-primary">View Order Details</a> -->
+                            <a href="{% url 'download_invoice' order.id %}" class="btn btn-primary">Download Invoice</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

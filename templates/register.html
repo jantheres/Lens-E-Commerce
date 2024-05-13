@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('../static/glass.jpg'); 
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button, a {
+            width: 50%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #009107;
+        }
+
+        .butt {
+            background-color: #ff4242;
+            color: white;
+        }
+
+        a:hover {
+            background-color: #ff0000;
+            color: white;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    
+    <form action="" method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <h2>Registration</h2>
+        {% if messages %}
+        <div class="alert alert-danger" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" name="fname" required>
+        <span class="error-message" id="fnameError"></span>
+
+        <label for="lname">Last Name:</label>
+        <input type="text" id="lname" name="lname" required>
+        <span class="error-message" id="lnameError"></span>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <span class="error-message" id="usernameError"></span>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <span class="error-message" id="passwordError"></span>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <span class="error-message" id="emailError"></span>
+
+        <label for="phone">Mobile Phone:</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="e.g., 1234567890" required>
+        <span class="error-message" id="phoneError"></span>
+
+        <button type="submit">Register</button>
+        <a href="/" class="butt">Cancel</a>
+    </form>
+
+    <script>
+        function validateForm() {
+            var fname = document.getElementById('fname').value;
+            var lname = document.getElementById('lname').value;
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var phone = document.getElementById('phone').value;
+
+            // Reset error messages
+            document.getElementById('fnameError').innerHTML = '';
+            document.getElementById('lnameError').innerHTML = '';
+            document.getElementById('usernameError').innerHTML = '';
+            document.getElementById('passwordError').innerHTML = '';
+            document.getElementById('phoneError').innerHTML = '';
+
+            // Validation logic
+            if (fname.length < 1) {
+                document.getElementById('fnameError').innerHTML = 'First Name should have at least 1 character';
+                return false;
+            }
+
+            if (lname.length < 1) {
+                document.getElementById('lnameError').innerHTML = 'Last Name should have at least 1 character';
+                return false;
+            }
+
+            if (username.length < 3) {
+                document.getElementById('usernameError').innerHTML = 'Username should have at least 3 characters';
+                return false;
+            }
+
+            if (password.length < 8) {
+                document.getElementById('passwordError').innerHTML = 'Password should have at least 8 characters';
+                return false;
+            }
+
+            if (!/^[0-9]{10}$/.test(phone)) {
+                document.getElementById('phoneError').innerHTML = 'Enter a valid 10-digit phone number';
+                return false;
+            }
+
+            return true; // Form is valid
+        }
+    </script>
+</body>
+</html>

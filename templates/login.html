@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('../static/perfume1.jpg'); 
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 50%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        a {
+            width: 100%;
+            padding: 11px;
+            padding-left: 36px;
+            padding-right: 36px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #009107;
+        }
+
+        .butt {
+            background-color: #ff4242;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background-color: #ff0000;
+            text-decoration: none;
+            color: white;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <h2>Login</h2>
+        {% for i in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{i}}
+          </div>
+        {%endfor%}
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+        <span id="emailError" class="error-message"></span>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <span id="passwordError" class="error-message"></span>
+
+        <button type="submit">Login</button>
+        <a href="/" class="butt">Cancel</a>
+        <a href="{% url 'forgot_password' %}">Forgot Password?</a>
+    </form>
+
+    
+    <script>
+        function validateForm() {
+            var username = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            // Reset error messages
+            document.getElementById('emailError').innerHTML = '';
+            document.getElementById('passwordError').innerHTML = '';
+
+            // Validation logic
+            if (username.length < 3) {
+                document.getElementById('emailError').innerHTML = 'Username should have at least 3 characters';
+                return false;
+            }
+
+            if (password.length < 8) {
+                document.getElementById('passwordError').innerHTML = 'Password should have at least 8 characters';
+                return false;
+            }
+
+            return true; // Form is valid
+        }
+    </script>
+</body>
+</html>

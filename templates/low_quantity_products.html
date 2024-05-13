@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low Quantity Products</title>
+</head>
+<body>
+    <h1>Low Quantity Products</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Current Quantity</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lens in low_quantity_lenses %}
+                <tr>
+                    <td><img src="{{ lens.p_image.url }}" alt="{{ lens.p_name }}" style="max-width: 100px;"></td>
+                    <td>{{ lens.p_name }}</td>
+                    <td>{{ lens.p_quantity }}</td>
+                    <td>{{ lens.p_price }}</td>
+                    <td><a href="#">Order More</a></td> <!-- Replace '#' with the appropriate URL for ordering more -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

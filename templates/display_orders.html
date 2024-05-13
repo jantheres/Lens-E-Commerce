@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders | LensLook</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+
+        .product-card {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 10px;
+            text-align: center; /* Center align text content */
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .btn-primary {
+            background-color: #000000;
+            border-color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: #000000;
+            border-color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">LensLook - Admin Page</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="admin_view">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="admin_add">Add Lens</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="display_orders">View Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h2>All Orders</h2>
+    {% for order in orders %}
+    <div class="card mb-3">
+        <div class="card-header">
+            Order ID: {{ order.id }}
+        </div>
+        <div class="card-body">
+            <form action="{% url 'update_order_status' order.id %}" method="POST">
+                {% csrf_token %}
+                <p><b>Customer:</b> {{ order.customer.username }}</p>
+                <p><b>Total:</b> {{ order.total }}</p>
+                <p><b>Status:</b>
+                    <select name="status">
+                        {% for status in ORDER_STATUS %}
+                            <option value="{{ status.0 }}" {% if order.order_status == status.0 %}selected{% endif %}>{{ status.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <p><b>Created At:</b> {{ order.created_at }}</p>
+                <p><b>Products:</b></p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Rate</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.cart.cartproduct_set.all %}
+                        <tr>
+                            <td>{{ item.product.p_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.rate }}</td>
+                            <td>{{ item.subtotal }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
