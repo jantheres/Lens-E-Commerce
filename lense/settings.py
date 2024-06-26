@@ -137,5 +137,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'jan.23pmc127@mariancollege.org'
-EMAIL_HOST_PASSWORD='ttzutjrpxcvngzjf'
+EMAIL_HOST_USER = # 'example@gmail.com'
+EMAIL_HOST_PASSWORD=#'password'
